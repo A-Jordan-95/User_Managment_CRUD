@@ -1,11 +1,11 @@
 {
   "name": "user_management_crud",
   "version": "1.0.0",
-  "description": "Website fo a company project.",
-  "main": "index.js",
+  "description": "User management crud web application template.",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
