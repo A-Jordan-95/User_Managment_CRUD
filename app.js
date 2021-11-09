@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const path = require('path');
+const router = express.Router();
 const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
@@ -12,19 +13,19 @@ app.use(bodyParser.urlencoded({ extended:true}));
 //set view engine
 app.set("view engine", "ejs")
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.render('index', { title: 'Home' });
 });
 
-app.get('/about', (req, res) => {
+router.get('/about', (req, res) => {
   res.render('about', { title: 'About' });
 });
 
-app.get('/login', (req, res) => {
+router.get('/login', (req, res) => {
   res.render('login', { title: 'Log In' });
 });
 
-app.get('/signup', (req, res) => {
+router.get('/signup', (req, res) => {
   res.render('signup', { title: 'Sign Up' });
 });
 
