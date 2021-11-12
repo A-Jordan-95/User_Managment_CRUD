@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -9,8 +10,9 @@ dotenv.config({path:'config.env'})
 
 app.use(express.json());
 
-//set view engine
+//middleware
 app.set("view engine", "ejs")
+app.use(bodyParser.urlencoded({extended:true}));
 
 //Routes for web pages
 
@@ -38,8 +40,19 @@ app.get('/signup', (req, res) => {
 
 //create user
 app.post('/user', async (req, res) => {
-  const user = await prisma.user.create({ data: req.body});
-  res.json(user);
+  if (req.body.password == req.body.confirmPassword) {
+    const userData = { 
+      "name": req.body.name, 
+      "email": req.body.email, 
+      "password": req.body.password
+    }
+    const user = await prisma.user.create({ data: userData});
+    res.json(user);
+  }
+  else {
+    res.render('signupErr', { title: 'Sign Up' });
+  }
+  
 });
 
 //get all users
@@ -48,7 +61,7 @@ app.get('/users', async (req, res) => {
   res.json(user);
 });
 
-//get user by id
+//get user by email
 app.get('/user/:id', async (req, res) => {
   const { id } = req.params;
   const user = await prisma.user.findUnique({
